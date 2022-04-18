@@ -118,8 +118,8 @@ x.reverse를 그 결과로 치환해도 문제 없다.
 
 ```scala
 val x = "Hello"
-val y1 = "olleH".toString // y1 = "Hello"
-val y2 = "olleH".toString // y2 = "Hello"
+val y1 = "olleH".toString // y1 = "olleH"
+val y2 = "olleH".toString // y2 = "olleH"
 ```
 
 ### 참조 투명성 만족하지 않음
@@ -127,8 +127,8 @@ val y2 = "olleH".toString // y2 = "Hello"
 ```scala
 val x = new StringBuilder("Hello")
 val y = x.append(" world")
-val y1 = y1.toString // "Hello world"
-val y2 = y1.toString // "Hello world!!"
+val y1 = y.toString // "Hello world"
+val y2 = y.toString // "Hello world!!"
 ```
 
 y1을 치환하면,
