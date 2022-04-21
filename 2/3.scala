@@ -3,4 +3,4 @@
  * 변환하는 커링(currying)을 알아보자. 이번에도 컴파일되는 구현은 단 한가지이다.
  * 그러한 구현을 작성하라.
  */
-def curry[A, B, C](f: (A, B) => C): A => (B => C)
+def curry[A, B, C](f: (A, B) => C): A => (B => C) = (a: A) => (b: B) => f(a, b)
