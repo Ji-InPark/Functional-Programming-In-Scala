@@ -8,4 +8,8 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def drop[A](l: List[A], n: Int): List[A]
+def drop[A](l: List[A], n: Int): List[A] =
+  l match {
+    case Cons(_, _) if n == 0 => l
+    case Cons(_, t) if n > 0 => t
+  }
