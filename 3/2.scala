@@ -14,3 +14,4 @@ def tail[A](as: List[A]) =
     case Cons(h, t) => t
     case _ => Nil
   }
+

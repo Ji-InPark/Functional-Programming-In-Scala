@@ -7,4 +7,8 @@
  * 참고: 스칼라에서 임의의 두 값 x와 y의 상등(equality)을 비교하는 표현식은 x == y이다.
  */
 
+sealed trait List[+A]
+case object Nil extends List[Nothing]
+case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
 def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean

@@ -5,4 +5,8 @@
  * 예를 들어 flatMap(List(1, 2, 3))(i => List(i, i))는 List(1, 1, 2, 2, 3, 3)이 되어야 한다.
  */
 
+sealed trait List[+A]
+case object Nil extends List[Nothing]
+case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
 def flatMap[A,B](as: List[A])(f: A => List[B]): List[B]
