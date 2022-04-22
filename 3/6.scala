@@ -5,4 +5,8 @@
  * 이 함수를 tail처럼 상수 시간으로 구현할 수 없는 이유는 무엇일까?
  */
 
+sealed trait List[+A]
+case object Nil extends List[Nothing]
+case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
 def init[A](l: List[A]): List[A]

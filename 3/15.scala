@@ -4,3 +4,7 @@
  * 실행 시간은 반드시 모든 목록의 전체 길이에 선형으로 비례해야 한다.
  * 이미 정의한 함수들을 활용하도록 노력할 것
  */
+
+sealed trait List[+A]
+case object Nil extends List[Nothing]
+case class Cons[+A](head: A, tail: List[A]) extends List[A]

@@ -4,4 +4,8 @@
  * List 전체의 복사본을 만들 필요는 없다
  */
 
+sealed trait List[+A]
+case object Nil extends List[Nothing]
+case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
 def drop[A](l: List[A], n: Int): List[A]

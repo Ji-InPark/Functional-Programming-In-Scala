@@ -3,4 +3,8 @@
  * 그리고 그 함수를 이용해서 List[Int]에서 모든 홀수를 제거하라.
  */
 
+sealed trait List[+A]
+case object Nil extends List[Nothing]
+case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
 def filter[A](as: List[A])(f: A => Boolean): List[A]
