@@ -8,4 +8,9 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B
+@annotation.tailrec
+def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B =
+  as match {
+    case Nil => z
+    case Cons(h, t) => foldLeft(t, F(z, h))(F)
+  }
