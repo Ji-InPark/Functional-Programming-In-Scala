@@ -231,3 +231,24 @@ def product2(ns: List[Double]) =
 Cons(1, Cons(2, Nil))
 f   (1, f   (2, z))
 ```
+
+- foldRight가 하나의 값으로 축약되려면 반드시 목록의 끝까지 순회해야 함을 주목하기 바란다
+
+### 단순 구성요소들로 목록 함수를 조립할 때의 효율성 손실
+
+- List의 한 가지 문제는, 어떤 연산이나 알고리즘을 아주 범용적인 함수들로 표현이 가능하다
+- 하지만 그 결과로 만들어진 구현이 항상 효율적이지는 않다는 점이다
+
+## 트리
+
+- List는 소위 대수적 자료 형식이라고 부르는 것의 한 예일뿐이다
+- 대수적 자료 형식이라는 이름에 걸맞게 대수학의 용어들이 쓰임을 주목하기 바란다
+
+- 대수적 자료 형식을 다른 자료구조의 정의에 사용할 수 있다
+- 간단한 이진 트리를 정의해보자
+
+```scala
+sealed trait Tree[+A]
+case class Leaf[A](value: A) extends Tree[A]
+case class Branch[A](Left: Tree[A], right: Tree[A]) extends Tree[A]
+```
