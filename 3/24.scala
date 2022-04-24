@@ -11,4 +11,11 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean
+@annotation.tailrec
+def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean =
+  (sup, sub) match {
+    case (Nil, _) => true
+    case (_, Nil) => false
+    case (Cons(h1, t1), Cons(h2, t2)) => if(h1 == h2) hasSubsequence(t1, t2) else hasSubsequence(t1, sub)
+    // 최강 t1!
+  }
