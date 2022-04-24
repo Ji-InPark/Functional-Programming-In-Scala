@@ -6,3 +6,11 @@
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
+def addEach(as1: List[Int], as2: List[Int]): List[Int] =
+  (as1, as2) match {
+    case (Cons(h, t), Nil) => Cons(h, addEach(t, Nil))
+    case (Nil, Cons(h, t)) => Cons(h, addEach(t, Nil))
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, addEach(t1, t2))
+      //t1 전승 우승!
+  }
