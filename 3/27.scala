@@ -6,8 +6,8 @@ sealed trait Tree[+A]
 case class Leaf[A](value: A) extends Tree[A]
 case class Branch[A](Left: Tree[A], right: Tree[A]) extends Tree[A]
 
-def maxLength(t: Tree[Int]): Int =
+def depth(t: Tree[Int]): Int =
   t match {
     case Leaf(_) => 1
-    case Branch(l, r) => 1 + maxLength(l).max(maxLength(r))
+    case Branch(l, r) => 1 + depth(l).max(depth(r))
   }
