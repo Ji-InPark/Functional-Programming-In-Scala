@@ -4,4 +4,7 @@
  * 서명은 다음과 같다.
  */
 
-def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B
+def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B = as match {
+  case Cons(x, xs) => foldLeft(xs, F(z, x))(F)
+  case Nil => z
+}

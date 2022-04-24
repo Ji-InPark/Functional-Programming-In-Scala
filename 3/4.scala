@@ -4,4 +4,9 @@
  * List 전체의 복사본을 만들 필요는 없다
  */
 
-def drop[A](l: List[A], n: Int): List[A]
+def drop[A](l: List[A], n: Int): List[A] =
+  if (n == 0) l
+  else l match {
+    case Cons(_, xs) => drop(xs, n - 1)
+    case Nil => Nil
+  }

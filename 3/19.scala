@@ -3,4 +3,7 @@
  * 그리고 그 함수를 이용해서 List[Int]에서 모든 홀수를 제거하라.
  */
 
-def filter[A](as: List[A])(f: A => Boolean): List[A]
+def filter[A](as: List[A])(f: A => Boolean): List[A] =
+  foldRight[A, List[A]](as, Nil)((a, b) => if (f(a)) Cons(a, b) else b)
+
+def filterOutOdd(as: List[Int]) = filter(as)(_ % 2 != 1)

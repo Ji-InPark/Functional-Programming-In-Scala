@@ -5,4 +5,6 @@
  * 예를 들어 flatMap(List(1, 2, 3))(i => List(i, i))는 List(1, 1, 2, 2, 3, 3)이 되어야 한다.
  */
 
-def flatMap[A,B](as: List[A])(f: A => List[B]): List[B]
+def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+  foldRight[A, List[B]](as, Nil)((a, b) => foldRight(f(a), b)(Cons(_, _)))
+

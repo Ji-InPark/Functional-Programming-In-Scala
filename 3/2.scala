@@ -4,3 +4,8 @@
  * Nil인 list도 지원하도록 독자의 구현을 수정하는 여러가지 방법들도 고려해보라.
  * 이에 대해서는 다음 장에서 좀 더 살펴볼 것이다.
  */
+
+def tail[A](list: List[A]) = list match {
+  case Cons(_, xs) => xs
+  case Nil => Nil
+}
