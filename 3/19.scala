@@ -7,4 +7,7 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def filter[A](as: List[A])(f: A => Boolean): List[A]
+def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
+  case Nil => Nil
+  case Cons(x,xs) => if(f(x)) Cons(x,filter(xs)(f)) else filter(xs)(f)
+}

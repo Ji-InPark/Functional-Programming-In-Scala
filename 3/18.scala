@@ -6,4 +6,7 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def map[A, B](as: List[A])(f: A => B): List[B]
+def map[A, B](as: List[A])(f: A => B): List[B] = as match {
+  case Nil => Nil
+  case Cons(x,xs) => Cons(f(x), map(xs)(f))
+}

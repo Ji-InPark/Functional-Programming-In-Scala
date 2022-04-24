@@ -5,3 +5,10 @@
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
+object List {
+  def setHead[T](as: List[T],value : T) as match {
+    case Nil => Nil
+    case Cons(x,xs) => Cons(value,xs)
+  }
+}

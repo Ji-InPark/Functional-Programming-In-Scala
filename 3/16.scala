@@ -6,3 +6,8 @@
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
+def addOne(as :List[Int]) : List[Int] = as match {
+  case Nil => Nil : List[Int]
+  case Cons(x,xs) => Cons(x+1, addOne(xs))
+}

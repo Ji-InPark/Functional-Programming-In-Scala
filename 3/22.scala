@@ -6,3 +6,11 @@
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
+def addList(as: List[Int], bs: List[Int]) : List[Int] = as match {
+  case Nil => Nil
+  case Cons(x,xs) => bs match {
+    case Nil => Nil
+    case Cons(y,ys) => Cons(x+y, addList(xs,ys))
+  }
+}

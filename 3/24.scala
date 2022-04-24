@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 /**
  * 이번 문제 또한 어렵다 이 애송이드라
  * 효율성 손실의 한 예로, List가 또 다른 List를 부분 순차열로서 담고 있는지 젘검하는 hasSubsequence 함수를 구현하라.
@@ -11,4 +13,18 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean
+def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
+  @tailrec
+  def iterate(as:List[A]) : Boolean = as match {
+    case Nil => false
+    case Cons(_,xs) => if(xs == sub) true else iterate(xs)
+  }
+
+  @tailrec
+  def iterate2(as:List[A]) : Boolean = as match {
+    case Nil => false
+    case Cons(_,xs) => if(iterate(xs)) true else iterate2(xs)
+  }
+  if(sup == sub) true
+  else iterate2(sup)
+}
