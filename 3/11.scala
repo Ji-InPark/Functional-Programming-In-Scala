@@ -6,11 +6,6 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def sum(ns: List[int]) =
-  foldLeft(ns, 0)(_+_)
-
-def product(ns: List[Double]) =
-  foldLeft(ns, 1.0)(_*_)
-
-def length[A](as: List[A]): Int =
-  foldLeft(as, 0)((x,_) => x+1)
+def sum[Int](ns : List[Int]) : Int = foldLeft(ns,0)(_ + _)
+def product[Double](ns : List[Double]) : Double = foldLeft(ns,1.0)(_ * _)
+def size[A](ns: List[A]) : Int = foldLeft(ns,0) ((_,y)=>y+1)

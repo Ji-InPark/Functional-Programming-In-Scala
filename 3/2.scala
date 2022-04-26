@@ -10,8 +10,8 @@ case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
 object List {
-  def tail(list: List[A]): List[A] = list match {
+  def trail[A](as: List[A]) : List[A] = as match {
     case Nil => Nil
-    case Cons(_, tail) => tail
+    case Cons(x,xs) => xs
   }
 }

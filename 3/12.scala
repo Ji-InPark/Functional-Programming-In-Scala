@@ -6,5 +6,8 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def Reverse[A](as: List[A]): Int =
-  foldLeft(as, Nil)((xs,x) => Cons(x,xs))
+
+def inverse[A](as : List[A]) = foldLeft(as,Nil : List[A])((x,y) => x match {
+  case Cons(x,xs) => Cons(y,(Cons(x,xs)))
+  case _ => _
+})

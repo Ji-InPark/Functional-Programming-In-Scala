@@ -6,5 +6,4 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def length[A](as: List[A]): Int =
-  foldRight(as, 0)((_,x) => x+1)
+def length[A](as: List[A]): Int = foldRight(as,0)((_, y) => y + 1)

@@ -7,5 +7,7 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def doubleToString(a: List[Double]): List[String] =
-  foldRight(a, Nil:List[String])((x,xs) => Cons(x.toString,xs))
+def doubleToString(as : List[Double]) : List[String] = as match {
+  case Nil => Nil : List[String]
+  case Cons(x,xs) => Cons(x.toString,doubleToString(xs))
+}

@@ -7,8 +7,8 @@ case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
 object List {
-  def setHead(list: List[A], t: A): List[A] = list match {
+  def setHead[T](as: List[T],value : T) as match {
     case Nil => Nil
-    case Cons(_, tail) => Cons(t, tail)
+    case Cons(x,xs) => Cons(value,xs)
   }
 }

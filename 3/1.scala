@@ -19,6 +19,7 @@ object List {
   }
 }
 
+/* 이 주석 제거하지 말고 코드 돌리지 말고 풀기 ^^
 val x = List(1, 2, 3, 4, 5) match {
   case Cons(x, Cons(2, Cons(4, _))) => x
   case Nil => 42
@@ -26,8 +27,7 @@ val x = List(1, 2, 3, 4, 5) match {
   case Cons(h, t) => h + sum(t)
   case _ => 101
 }
-/*
+
 결과는
-3
-switch 케이스처럼 위에있는게 우선순위에 있는것인가?
 */
+101..?

@@ -7,8 +7,10 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def zipWith[A,B](a: List[A], b: List[A])(f: (A,A) => B): List[B] = (a,b) match {
-  case (Nil, _) => Nil
-  case (_, Nil) => Nil
-  case (Cons(a1,a1s),Cons(b1,b1s)) => Cons(f(a1,b1),zipWith(a1s,b1s)(f))
+def zipWith[A](as: List[A], bs: List[A])(f: (A,A) => A): List[A] = as match {
+  case Nil => Nil
+  case Cons(x,xs) => bs match {
+    case Nil => Nil
+    case Cons(y,ys) => Cons(f(x,y), zipWith(xs,ys)(f))
+  }
 }
