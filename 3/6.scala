@@ -9,15 +9,9 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def init[A](l: List[A]): List[A] = l match {
-    case Cons(_, Nil) => Nil
-    case Cons(head, tail) => Cons(head, init(tail))
-    case _ => l
-}
-
-def test(): Unit = {
-    println(init(Nil))
-    println(init(Cons(2, Nil)))
-    println(init(Cons(3, Cons(2, Nil))))
-    println(init(Cons(4, Cons(3, Cons(2, Nil)))))
-}
+def init[A](l: List[A]): List[A] =
+  l match {
+    /*
+    GG
+    */
+  }

@@ -8,16 +8,9 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def drop[A](l: List[A], n: Int): List[A] = if (n == 0) l else l match {
-    case Cons(_, Nil) => Nil
-    case Cons(_, t) => drop(t, n - 1)
-    case _ => l
-}
-
-def test(): Unit = {
-    println(drop(Nil, 1))
-    println(drop(Cons(2, Nil), 1))
-    println(drop(Cons(3, Cons(2, Nil)), 1))
-    println(drop(Cons(3, Cons(2, Nil)), 2))
-    println(drop(Cons(4, Cons(3, Cons(2, Nil))), 2))
-}
+def drop[A](l: List[A], n: Int): List[A] =
+    if(n==0) l
+    l match {
+      case Nil => Nil
+      case Cons(_, y) => drop(y,n-1)
+    }

@@ -9,4 +9,5 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def flatMap[A,B](as: List[A])(f: A => List[B]): List[B]
+def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+  foldRight(as, Nil:List[B])((x,xs) => append(f(x),xs))

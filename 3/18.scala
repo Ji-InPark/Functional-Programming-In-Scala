@@ -6,13 +6,5 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def map[A, B](as: List[A])(f: A => B): List[B] = as match {
-    case Cons(head, tail) => Cons(f(head), map(tail)(f))
-    case _ => Nil
-}
-
-def test(): Unit = {
-    println(map(Cons(3.1, Nil))(_ + 1.0))
-    println(map(Cons(1.2, Cons(2.4, Cons(3.6, Nil))))(_ + 1.0))
-}
-
+def map[A, B](as: List[A])(f: A => B): List[B] =
+  foldRight(as, Nil:List[B])((x,xs) => Cons(f(x),xs))
