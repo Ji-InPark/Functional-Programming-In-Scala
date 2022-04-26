@@ -5,13 +5,7 @@
  * 이에 대해서는 다음 장에서 좀 더 살펴볼 것이다.
  */
 
-sealed trait List[+A]
-case object Nil extends List[Nothing]
-case class Cons[+A](head: A, tail: List[A]) extends List[A]
-
-def tail[A](as: List[A]) =
-  as match {
-    case Cons(h, t) => t
-    case _ => Nil
-  }
-
+def tail[A](list: List[A]) = list match {
+  case Cons(_, xs) => xs
+  case Nil => Nil
+}

@@ -27,6 +27,6 @@ val x = List(1, 2, 3, 4, 5) match {
   case Cons(h, t) => h + sum(t)
   case _ => 101
 }
-
-결과는 3
 */
+
+// 3

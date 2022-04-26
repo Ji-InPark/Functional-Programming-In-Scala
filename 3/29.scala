@@ -4,25 +4,15 @@
  * 이 fold 함수와 List에 대한 왼쪽, 오른쪽 fold 사이의 유사성을 찾아낼 수 있는가?
  */
 
+def fold[A, B](tree: Tree[A])(f: (A) => B, g: (B, B) => B): B = tree match {
+  case Leaf(v) => f(v)
+  case Branch(left, right) => g(fold(left)(f, g), fold(right)(f, g))
+}
 
-sealed trait Tree[+A]
-case class Leaf[A](value: A) extends Tree[A]
-case class Branch[A](Left: Tree[A], right: Tree[A]) extends Tree[A]
+def size[A](tree: Tree[A]) = fold[A, Int](tree)(_ => 1, _ + _)
 
-def fold[A, B](t: Tree[A])(f: A => B)(g: (B, B) => B):B =
-  t match {
-    case Leaf(x) => f(x)
-    case Branch(l, r) => g(fold(l)(f)(g), fold(r)(f)(g))
-  }
+def maximum(tree: Tree[Int]) = fold[Int, Int](tree)((a) => a, _ max _)
 
-def depth(t: Tree[Int]): Int =
-  fold(t)(_ => 1)((l, r) => 1 + l.max(r))
+def depth[A](tree: Tree[A]) = fold[A, Int](tree)((_) => 0, (a, b) => (a max b) + 1)
 
-def maximum(t: Tree[Int]): Int =
-  fold(t)(_ => _)((l, r) => l.max(r))
-
-def map[A, B](t: Tree[A])(f: A => B): Tree[B] =
-  fold(t)(x => Leaf(f(x)))((l, r) => Branch(l, r))
-
-// 아니 이건 맞는거 같은데 왜 오류 계속 뜨지 ㅡㅡ
-// 음... 형식 추론 때문인가
+def map[A, B](tree: Tree[A])(f: A => B): Tree[B] = fold[A, Tree[B]](tree)((v) => Leaf(f(v)), (l, r) => Branch(l, r))

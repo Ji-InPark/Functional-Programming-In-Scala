@@ -7,15 +7,11 @@
  * 참고: 스칼라에서 임의의 두 값 x와 y의 상등(equality)을 비교하는 표현식은 x == y이다.
  */
 
-sealed trait List[+A]
-case object Nil extends List[Nothing]
-case class Cons[+A](head: A, tail: List[A]) extends List[A]
-
-@annotation.tailrec
-def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean =
-  (sup, sub) match {
-    case (Nil, _) => true
-    case (_, Nil) => false
-    case (Cons(h1, t1), Cons(h2, t2)) => if(h1 == h2) hasSubsequence(t1, t2) else hasSubsequence(t1, sub)
-    // 최강 t1!
+def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sub match {
+  case Nil => true
+  case Cons(subH, subT) => sup match {
+    case Nil => false
+    case Cons(supH, supT) =>
+      (subH == supH && hasSubsequence(supT, subT)) || hasSubsequence(supT, sub)
   }
+}

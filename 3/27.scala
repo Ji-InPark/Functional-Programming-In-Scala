@@ -2,12 +2,7 @@
  * 트리의 뿌리(root)에서 임의의 잎으로의 가장 긴 경로의 길이를 돌려주는 함수 depth를 작성하라
  */
 
-sealed trait Tree[+A]
-case class Leaf[A](value: A) extends Tree[A]
-case class Branch[A](Left: Tree[A], right: Tree[A]) extends Tree[A]
-
-def depth(t: Tree[Int]): Int =
-  t match {
-    case Leaf(_) => 1
-    case Branch(l, r) => 1 + depth(l).max(depth(r))
-  }
+def depth[A](tree: Tree[A]): Int = tree match {
+  case Leaf(_) => 0
+  case Branch(left, right) => (depth(left) max depth(right)) + 1
+}

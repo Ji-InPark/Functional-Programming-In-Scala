@@ -4,12 +4,9 @@
  * List 전체의 복사본을 만들 필요는 없다
  */
 
-sealed trait List[+A]
-case object Nil extends List[Nothing]
-case class Cons[+A](head: A, tail: List[A]) extends List[A]
-
 def drop[A](l: List[A], n: Int): List[A] =
-  l match {
-    case Cons(_, _) if n == 0 => l
-    case Cons(_, t) if n > 0 => drop(t, n - 1)
+  if (n == 0) l
+  else l match {
+    case Cons(_, xs) => drop(xs, n - 1)
+    case Nil => Nil
   }

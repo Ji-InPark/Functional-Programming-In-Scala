@@ -5,16 +5,8 @@
  * 이 함수를 tail처럼 상수 시간으로 구현할 수 없는 이유는 무엇일까?
  */
 
-sealed trait List[+A]
-case object Nil extends List[Nothing]
-case class Cons[+A](head: A, tail: List[A]) extends List[A]
-
-def init[A](l: List[A]): List[A] =
-  l match {
-    case Cons(h, Cons(_, t)) if t == Nil => Cons(h, Nil)
-    case Cons(h, t) => Cons(h, init(t))
-  }
-
-
-
-  // 자료구조가 맨 끝 요소를 한 번에 가리키고 있지 않기 때문에 상수 시간에는 구현이 안됩니다.
+def init[A](l: List[A]): List[A] = l match {
+  case Nil => Nil
+  case Cons(x, Nil) => Nil
+  case Cons(x, xs) => Cons(x, init(xs))
+}

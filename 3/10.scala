@@ -4,13 +4,7 @@
  * 서명은 다음과 같다.
  */
 
-sealed trait List[+A]
-case object Nil extends List[Nothing]
-case class Cons[+A](head: A, tail: List[A]) extends List[A]
-
-@annotation.tailrec
-def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B =
-  as match {
-    case Nil => z
-    case Cons(h, t) => foldLeft(t, F(z, h))(F)
-  }
+def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B = as match {
+  case Cons(x, xs) => foldLeft(xs, F(z, x))(F)
+  case Nil => z
+}
