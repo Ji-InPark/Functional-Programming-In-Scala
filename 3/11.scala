@@ -5,3 +5,9 @@
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
+def sum(ns: List[Int]) =
+  foldLeft(ns, 0))((x, y) => x + y)
+
+def product(ns: List[Double]) =
+  foldLeft(ns, 1.0)(_ * _)
