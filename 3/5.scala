@@ -6,8 +6,14 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def dropWhile[A](l: List[A], f: A => Boolean): List[A] =
- l match {
-   case Cons(_, h) => if f(h) then dropWhile(h, f)
- }
+def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+    case Cons(h, t) => if (f(h)) dropWhile(t, f) else Cons(h, t)
+    case _ => l
+}
 
+def test(): Unit = {
+    println(dropWhile(Nil, (n: Int) => n > 2))
+    println(dropWhile(Cons(2, Nil), (n: Int) => n > 2))
+    println(dropWhile(Cons(3, Cons(2, Nil)), (n: Int) => n > 2))
+    println(dropWhile(Cons(4, Cons(3, Cons(2, Nil))), (n: Int) => n > 2))
+}

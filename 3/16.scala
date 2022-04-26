@@ -6,3 +6,14 @@
 sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
+
+def increase(l: List[Int]): List[Int] = l match {
+    case Cons(head, tail) => Cons(head + 1, increase(tail))
+    case _ => Nil
+}
+
+def test(): Unit = {
+    println(increase(Nil))
+    println(increase(Cons(3, Nil)))
+    println(increase(Cons(1, Cons(2, Cons(3, Nil)))))
+}
