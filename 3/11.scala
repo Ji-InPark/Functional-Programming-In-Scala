@@ -6,6 +6,12 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def sum[Int](ns : List[Int]) : Int = foldLeft(ns,0)(_ + _)
-def product[Double](ns : List[Double]) : Double = foldLeft(ns,1.0)(_ * _)
-def size[A](ns: List[A]) : Int = foldLeft(ns,0) ((_,y)=>y+1)
+@annotation.tailrec
+def foldLeft[A, B](as: List[A], z: B)(F: (B, A) => B): B =
+  as match {
+    case Nil => z
+    case Cons(h, t) => foldLeft(t, F(z, h))(F)
+  }
+
+def sum(ints: List[Int]): Int = foldLeft(ints, 0)(_ + _)
+

@@ -3,10 +3,11 @@
  */
 
 sealed trait Tree[+A]
-case class Leaf[A](value : A) extends Tree[A]
-case class Branch[A](left:Tree[A],right:Tree[A]) extends Tree[A]
+case class Leaf[A](value: A) extends Tree[A]
+case class Branch[A](Left: Tree[A], right: Tree[A]) extends Tree[A]
 
-def size[A](root: Tree[A]): Int = root match {
-  case Leaf(_) => 1
-  case Branch(l,r) => 1 + size(l) + size(r)
-}
+def size[A](t: Tree[A]): Int =
+  t match {
+    case Leaf(_) => 1
+    case Branch(l, r) => 1 + size(l) + size(r)
+  }

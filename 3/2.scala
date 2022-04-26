@@ -9,9 +9,9 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-object List {
-  def trail[A](as: List[A]) : List[A] = as match {
-    case Nil => Nil
-    case Cons(x,xs) => xs
+def tail[A](as: List[A]) =
+  as match {
+    case Cons(h, t) => t
+    case _ => Nil
   }
-}
+

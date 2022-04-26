@@ -9,13 +9,21 @@ sealed trait List[+A]
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
-def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = as match {
-  case Nil => Nil : List[B]
-  case Cons(x,xs) => {
-    def map(as: List[B]) : List[B] = as match {
-      case Nil => flatMap(xs)(f)
-      case Cons(x1,xs1) => Cons(x1,map(xs1))
-    }
-    map(f(x))
+def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = // 스칼라가 형식 추론을 할 수 있게 개별적 인수그룹에 넣어줌
+  as match {
+    case Nil => z
+    case Cons(x, xs) => f(x, foldRight(xs, z)(f))
   }
-}
+
+def append[A](a1: List[A], a2: List[A]): List[A] =
+  foldRight(a1, a2)((x, y) => Cons(x, y))
+
+def appendAll[A](as: List[List[A]]): List[A] =
+  foldRight(as, Nil: List[A])(append)
+
+def map[A, B](as: List[A])(f: A => B): List[B] =
+  foldRight(as, Nil: List[B])((x, y) => Cons(f(x), y))
+
+def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+  appendAll(map(as)(f))
+

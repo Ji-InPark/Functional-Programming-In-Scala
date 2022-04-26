@@ -3,10 +3,11 @@
  */
 
 sealed trait Tree[+A]
-case class Leaf[A](value : A) extends Tree[A]
-case class Branch[A](left:Tree[A],right:Tree[A]) extends Tree[A]
+case class Leaf[A](value: A) extends Tree[A]
+case class Branch[A](Left: Tree[A], right: Tree[A]) extends Tree[A]
 
-def map[A,B](root : Tree[A])(f:A => B) : Tree[B] = root match {
-  case Leaf(x) => Leaf(f(x))
-  case Branch(l,r) => Branch(map(l)(f),map(r)(f))
-}
+def map[A, B](t: Tree[A])(f: A => B): Tree[B] =
+  t match {
+    case Leaf(x) => Leaf(f(x))
+    case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+  }
