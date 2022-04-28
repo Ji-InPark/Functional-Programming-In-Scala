@@ -3,4 +3,5 @@
  * 두 Option 값 중 하나라도 None이면 map2의 결과 역시 None이여야 한다.
  */
 
-def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = ???
+def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+  a.flatMap((av) => b.map((bv) => f(av, bv)))

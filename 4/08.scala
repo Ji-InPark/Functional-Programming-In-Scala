@@ -5,3 +5,5 @@
  * 아니면 이러한 요구사항을 Either보다 더 잘 만족하는 새로운 자료형식을 만들 수도 있을 것이다.
  * 그러한 자료 형식에 대해 orElse, traverse, sequence는 다르게 행동할까?
  */
+// 걍 Either<List[E], List[A]> 로 바꾸어버리면 될 듯?
+// orElse는 그대로, traverse와 sequence는 오류가 발생하기 전까지는 결과를 쌓고, 오류가 발생하고 나면 오류를 쌓도록 수정

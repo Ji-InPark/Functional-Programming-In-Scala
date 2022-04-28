@@ -4,4 +4,10 @@
  * 분산의 좀 더 자세한 정의는 위키백과를 참고하기 바란다.
  */
 
-def variance(xs: Seq[Double]): Option[Double] = ???
+def variance(xs: Seq[Double]): Option[Double] = {
+  if (xs.isEmpty)
+    return None
+
+  val m = xs.sum / xs.size
+  Some(xs.map((e) => math.pow(e - m, 2)).sum / xs.size)
+}
