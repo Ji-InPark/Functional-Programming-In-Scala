@@ -26,8 +26,8 @@ object Stream {
         else cons(as.head, apply(as.tail: _*))
 
     /*
-    * n에서 시작해서 n + 1, n + 2, 등으로 이어지는 무한 정수 스트림을 생성하는 함수를 작성하라.
-    */
+     * n에서 시작해서 n + 1, n + 2, 등으로 이어지는 무한 정수 스트림을 생성하는 함수를 작성하라.
+     */
     def from(n: Int): Stream[Int] =
 }
 
