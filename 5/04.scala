@@ -5,6 +5,7 @@ sealed trait Stream[+A] {
     def toList: List[A] =
 
     //// Use it if you need.
+    //// 풀이 방식에 제약이 없으므로, 필요하신 경우 사용하시면 됩니다.
     // def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
     //     case Cons(h, t) => f(h(), t().foldRight(z)(f))
     //     case _ => z
