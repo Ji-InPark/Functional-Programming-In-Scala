@@ -1,13 +1,13 @@
 sealed trait Stream[+A] {
-    /*
-     * TODO: To run the test code, copy your implementation of `toList` here!
-     */
-    def toList: List[A] =
-
     def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
         case Cons(h, t) => f(h(), t().foldRight(z)(f))
         case _ => z
     }
+
+    /*
+     * TODO: To run the test code, copy your implementation of `toList` here!
+     */
+    def toList: List[A] =
 
     /*
      * foldRight를 이용해서 takeWhile을 구현하라.
