@@ -36,7 +36,7 @@ object Stream {
 object Main {
     /* // Expected output:
      * state: 0
-     * state: 0 // Note: this is not a typo
+     * state: 2
      * begin
      * state: 1
      * state: 2
@@ -50,8 +50,9 @@ object Main {
      * 30.0
      * 40.0
      * next
-     * 0.0
-     * 10.0
+     * state: 3
+     * state: 4
+     * state: 5
      * 20.0
      * 30.0
      * 40.0
@@ -62,13 +63,13 @@ object Main {
             if (s < 5) Some((s * 10.0, s + 1)) else None
         }
         val xs = Stream.unfold(0)(stateLogic)
-        val ys = Stream.unfold(0)(stateLogic)
+        val ys = Stream.unfold(2)(stateLogic)
         println("begin")
         val subfs = xs.toList
         println("lazy operation executed")
         subfs.map(println(_))
         println("next")
-        val subys = xs.toList
+        val subys = ys.toList
         subys.map(println(_))
     }
 }
