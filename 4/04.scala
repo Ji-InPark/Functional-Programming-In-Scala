@@ -4,4 +4,7 @@
  * 그렇지 않으면 원래의 목록에 있는 모든 값의 목록을 담은 Some을 돌려주어야 한다.
  */
 
-def sequence[A](a: List[Option[A]]): Option[List[A]] = ???
+def sequence[A](a: List[Option[A]]): Option[List[A]] = a.foldRight(Some(Nil): Option[List[A]])((e, acc) => for (
+  accv <- acc;
+  ev <- e
+) yield ev :: accv)
