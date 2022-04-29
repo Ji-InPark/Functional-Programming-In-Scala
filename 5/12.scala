@@ -32,8 +32,8 @@ object Stream {
     def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
 
      /*
-     * unfold를 이용해서 fibs, from, constant, ones를 작성하라.
-     */
+      * unfold를 이용해서 fibs, from, constant, ones를 작성하라.
+      */
     def ones[A](a: A): Stream[A] =
     def constant[A](a: A): Stream[A] =
     def from(n: Int): Stream[Int] =
