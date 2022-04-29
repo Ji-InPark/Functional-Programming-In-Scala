@@ -1,11 +1,11 @@
 sealed trait Stream[+A] {
     /*
-     * TODO: To run the test code, copy your implementation of `toList` here!
+     * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
 
     /*
-     * TODO: To run the test code, copy your implementation of `take` here!
+     * TODO: To run the test code, copy your implementation of `take` and paste it here!
      */
     def take(n: Int): Stream[A] =
 }

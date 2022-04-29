@@ -1,9 +1,4 @@
 sealed trait Stream[+A] {
-    /*
-     * TODO: To run the test code, copy your implementation of `toList` here!
-     */
-    def toList: List[A] =
-
     //// Use it if you need.
     //// 풀이 방식에 제약이 없으므로, 필요하신 경우 사용하시면 됩니다.
     // def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
@@ -55,7 +50,7 @@ object Main {
             ),
         )
         println("00 *")
-        println(if (xs.forAll(_ == 5)) 3 else 13)
+        println(if (xs.forAll(_ == 5)) -5 else 13)
         println("14 *")
     }
 }
