@@ -1,9 +1,4 @@
 sealed trait Stream[+A] {
-    def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
-        case Cons(h, t) => f(h(), t().foldRight(z)(f))
-        case _ => z
-    }
-
     /*
      * TODO: To run the test code, copy your implementation of `toList` here!
      */
