@@ -1,18 +1,10 @@
 sealed trait Stream[+A] {
+
+
     /*
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
-
-    /*
-     * TODO: To run the test code, copy your implementation of `map` and paste it here!
-     */
-    def map[B](f: A => B): Stream[B] =
-
-    /*
-     * TODO: To run the test code, copy your implementation of `flatMap` and paste it here!
-     */
-    def flatMap[B](f: A => Stream[B]): Stream[B] =
 
     /*
      * unfold를 이용해서 tails를 구현하라.
