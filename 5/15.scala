@@ -41,9 +41,6 @@ object Stream {
      * TODO: Copy your implementation of `unfold` and paste it here!
      */
     def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
-        f(z).getOrElse(return empty) match {
-            case (a, s) => cons(a, unfold(s)(f))
-        }
 }
 
 // Test
