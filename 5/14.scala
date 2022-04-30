@@ -22,3 +22,29 @@ object Stream {
         if (as.isEmpty) empty
         else cons(as.head, apply(as.tail: _*))
 }
+
+// Test
+object Main {
+    /* // Expected output:
+     * true
+     * true
+     * false
+     * true
+     * false
+     * false
+     * false
+     * true
+     * false
+     */
+    def main(args: Array[String]): Unit = {
+        println(Stream(1,2,3) startsWith Stream(1,2))
+        println(Stream(1,2,3) startsWith Stream(1,2,3))
+        println(Stream(1,2,3) startsWith Stream(1,2,3,4))
+        println(Stream(1,2) startsWith Stream())
+        println(Stream(1,2) startsWith Stream(2))
+        println(Stream(1,2) startsWith Stream(2,3))
+        println(Stream(1,2) startsWith Stream(2,3,4))
+        println(Stream() startsWith Stream())
+        println(Stream() startsWith Stream(1))
+    }
+}
