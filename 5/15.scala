@@ -18,6 +18,8 @@ sealed trait Stream[+A] {
      * unfold를 이용해서 tails를 구현하라.
      * tails는 주어진 입력 Stream과 그 후행 순차열(suffix, 접미사)들로 이루어진 스트림을 돌려준다.
      * 예를 들어 Stream(1,2,3)에 대해 이 함수는 원래의 Stream(Stream(1,2,3), Stream(2,3), Stream(3), Stream())을 돌려주어야 한다.
+     *
+     * 주의: 가장 뒤에 빈 Stream 하나가 존재해야 합니다.
      */
     def tails: Stream[Stream[A]] =
 }
@@ -46,6 +48,7 @@ object Stream {
 // Test
 object Main {
     /* // Expected output:
+     * List()
      * List(1, 2, 3)
      * 1
      * 2
@@ -55,8 +58,11 @@ object Main {
      * 3
      * List(3)
      * 3
+     * List()
      */
     def main(args: Array[String]): Unit = {
+        println(Stream(Empty).toList(0).toList)
+    
         for (
             stream <- Stream(1,2,3).tails.toList;
             i <- { println(stream.toList); stream.toList }
