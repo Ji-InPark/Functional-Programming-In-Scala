@@ -1,10 +1,20 @@
 sealed trait Stream[+A] {
+    def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+        case Cons(h, t) => f(h(), t().foldRight(z)(f))
+        case _ => z
+    }
 
+    def append[B >: A](a: Stream[B]): Stream[B] =
+        foldRight[Stream[B]](a)(Stream.cons(_, _))
 
     /*
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * unfold를 이용해서 tails를 구현하라.
@@ -14,6 +24,10 @@ sealed trait Stream[+A] {
      * 주의: 가장 뒤에 빈 Stream 하나가 존재해야 합니다.
      */
     def tails: Stream[Stream[A]] =
+        Stream.unfold[Stream[A], Stream[A]](this)(s => s match {
+            case Cons(h, t) => Some((s, t()))
+            case _ => None
+        }).append(Stream[Stream[A]](Empty))
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -35,6 +49,9 @@ object Stream {
      * TODO: Copy your implementation of `unfold` and paste it here!
      */
     def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
+        f(z).getOrElse(return empty) match {
+            case (a, s) => cons(a, unfold(s)(f))
+        }
 }
 
 // Test

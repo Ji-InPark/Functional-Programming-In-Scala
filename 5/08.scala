@@ -3,11 +3,19 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * TODO: To run the test code, copy your implementation of `take` and paste it here!
      */
     def take(n: Int): Stream[A] =
+        this match {
+            case Cons(h, t) if (n > 0) => Stream.cons(h(), t().take(n - 1))
+            case _ => Empty
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -30,6 +38,7 @@ object Stream {
      */
     // val ones: Stream[Int] = cons(1, ones)
     def constant[A](a: A): Stream[A] =
+        cons(a, constant(a))
 }
 
 // Test

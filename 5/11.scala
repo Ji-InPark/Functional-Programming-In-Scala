@@ -3,11 +3,19 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * TODO: To run the test code, copy your implementation of `take` and paste it here!
      */
     def take(n: Int): Stream[A] =
+        this match {
+            case Cons(h, t) if (n > 0) => Stream.cons(h(), t().take(n - 1))
+            case _ => Empty
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -30,6 +38,9 @@ object Stream {
      * 이 함수는 초기 상태 하나와 다음 상태 및 다음 값(생성된 스트림 안의)을 산출하는 함수 하나를 받아야 한다.
      */
     def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
+        f(z).getOrElse(return empty) match {
+            case (a, s) => cons(a, unfold(s)(f))
+        }
 }
 
 // Test

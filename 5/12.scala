@@ -3,11 +3,19 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * TODO: To run the test code, copy your implementation of `take` and paste it here!
      */
     def take(n: Int): Stream[A] =
+        this match {
+            case Cons(h, t) if (n > 0) => Stream.cons(h(), t().take(n - 1))
+            case _ => Empty
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -30,17 +38,24 @@ object Stream {
      * TODO: Copy your implementation of `unfold` and paste it here!
      */
     def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
+        f(z).getOrElse(return empty) match {
+            case (a, s) => cons(a, unfold(s)(f))
+        }
 
      /*
       * unfold를 이용해서 fibs, from, constant, ones를 작성하라.
       */
     val ones: Stream[Int] =
+        unfold(1)(s => Some((s, s)))
 
     def constant[A](a: A): Stream[A] =
+        unfold(a)(s => Some((s, s)))
 
     def from(n: Int): Stream[Int] =
+        unfold(n)(s => Some((s, s + 1)))
 
     def fibs(): Stream[Int] =
+        unfold((0, 1))(s => Some((s._1, (s._2, s._1 + s._2))))
 }
 
 // Test

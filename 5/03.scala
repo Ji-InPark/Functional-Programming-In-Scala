@@ -3,6 +3,10 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * 주어진 술어를 만족하는 선행 요소들을 모두 돌려주는 함수 takeWhile을 작성하라.
@@ -10,6 +14,10 @@ sealed trait Stream[+A] {
      * 주의: 주어진 Stream의 정의를 따르려면, takeWhile을 호출했을 때 첫 번째 element만 evaluate되어야 합니다.
      */
     def takeWhile(p: A => Boolean): Stream[A] =
+        this match {
+            case Cons(h, t) if (p(h())) => Stream.cons(h(), t().takeWhile(p))
+            case _ => Empty
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
