@@ -34,8 +34,12 @@ object Stream {
      /*
       * unfold를 이용해서 fibs, from, constant, ones를 작성하라.
       */
-    def ones[A](a: A): Stream[A] =
+    val ones: Stream[Int] =
+
     def constant[A](a: A): Stream[A] =
+
     def from(n: Int): Stream[Int] =
+
     def fibs(): Stream[Int] =
+
 }
