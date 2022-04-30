@@ -75,6 +75,13 @@ object Main {
      * ***** append
      * GO
      * LAZY-1
+     * END
+     * LAZY-2
+     * LAZY-3
+     * LAZY-4
+     * LAZY-5
+     * LAZY-6
+     * List(-1, -2, -3, -4, -5, -6)
      * ***** flatMap
      * GO
      * LAZY-1
@@ -166,7 +173,9 @@ object Main {
         )
 
         println("GO")
-        xs.append(ys)
+        var zs = xs.append(ys)
+        println("END")
+        println(zs.toList)
     
         println("***** flatMap")
         
