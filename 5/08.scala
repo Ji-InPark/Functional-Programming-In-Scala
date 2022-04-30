@@ -28,7 +28,7 @@ object Stream {
     /*
      * ones를 조금 일반화해서, 주어진 값의 무한 Stream을 돌려주는 함수 constant를 작성하라. 
      */
-    // val ones: Streeam[Int] = cons(1, ones)
+    // val ones: Stream[Int] = cons(1, ones)
     def constant[A](a: A): Stream[A] =
 }
 
