@@ -1,5 +1,10 @@
 sealed trait Stream[+A] {
     /*
+     * TODO: To run the test code, copy your implementation of `toList` and paste it here!
+     */
+    def toList: List[A] =
+
+    /*
      * *어려움:* tails를 일반화한 scanRight 함수를 작성하라.
      * 이 함수는 중간 결과들의 스트림을 돌려주는 foldRight와 비슷하다.
      * 예시:
@@ -16,6 +21,8 @@ sealed trait Stream[+A] {
      * 이 함수를 앞에서 작성한 다른 어떤 함수로 구현할 수는 있을까?
      */
     def scanRight[B](b: B)(f: (A, => B) => B): Stream[B] =
+
+    def tails: Stream[Stream[A]] = scanRight[Stream[A]](Stream.empty)(Stream.cons(_, _))
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -32,4 +39,29 @@ object Stream {
     def apply[A](as: A*): Stream[A] =
         if (as.isEmpty) empty
         else cons(as.head, apply(as.tail: _*))
+}
+
+// Test
+object Main {
+    /* // Expected output:
+     * List(6, 5, 3, 0)
+     * List(1, 2, 3)
+     * 1
+     * 2
+     * 3
+     * List(2, 3)
+     * 2
+     * 3
+     * List(3)
+     * 3
+     * List()
+     */
+    def main(args: Array[String]): Unit = {
+        println(Stream(1,2,3).scanRight(0)(_ + _).toList)
+    
+        for (
+            stream <- Stream(1,2,3).tails.toList;
+            i <- { println(stream.toList); stream.toList }
+        ) yield println(i)
+    }
 }
