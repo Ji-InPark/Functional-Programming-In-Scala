@@ -5,6 +5,10 @@ sealed trait Stream[+A] {
      * 이 함수와 Stream에 대해 작용하는 다른 함수들을 Stream 특질 안에 넣어도 좋다. (vice versa)
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]

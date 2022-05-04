@@ -3,6 +3,15 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
+
+    def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+        case Cons(h, t) => f(h(), t().foldRight(z)(f))
+        case _ => z
+    }
 
     /*
      * *어려움:* tails를 일반화한 scanRight 함수를 작성하라.
@@ -21,6 +30,10 @@ sealed trait Stream[+A] {
      * 이 함수를 앞에서 작성한 다른 어떤 함수로 구현할 수는 있을까?
      */
     def scanRight[B](b: B)(f: (A, => B) => B): Stream[B] =
+        this match {
+            case Cons(h, t) => Stream.cons(foldRight[B](b)(f), t().scanRight(b)(f))
+            case Empty => Stream.cons(b, Empty)
+        }
 
     def tails: Stream[Stream[A]] = scanRight[Stream[A]](Stream.empty)(Stream.cons(_, _))
 }
@@ -39,6 +52,11 @@ object Stream {
     def apply[A](as: A*): Stream[A] =
         if (as.isEmpty) empty
         else cons(as.head, apply(as.tail: _*))
+
+    def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
+        f(z).getOrElse(return empty) match {
+            case (a, s) => cons(a, unfold(s)(f))
+        }
 }
 
 // Test

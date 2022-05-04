@@ -8,11 +8,16 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * foldRight를 이용해서 takeWhile을 구현하라.
      */
     def takeWhile(p: A => Boolean): Stream[A] =
+        foldRight[Stream[A]](Stream.empty)((a, aStream) => if (p(a)) Stream.cons(a, aStream) else Stream.empty)
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]

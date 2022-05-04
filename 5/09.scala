@@ -3,11 +3,19 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * TODO: To run the test code, copy your implementation of `take` and paste it here!
      */
     def take(n: Int): Stream[A] =
+        this match {
+            case Cons(h, t) if (n > 0) => Stream.cons(h(), t().take(n - 1))
+            case _ => Empty
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -29,6 +37,7 @@ object Stream {
      * n에서 시작해서 n + 1, n + 2, 등으로 이어지는 무한 정수 스트림을 생성하는 함수를 작성하라.
      */
     def from(n: Int): Stream[Int] =
+        cons(n, from(n + 1))
 }
 
 // Test

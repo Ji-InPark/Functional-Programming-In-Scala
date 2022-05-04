@@ -3,16 +3,28 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * (1) Stream의 처음 n개의 요소를 돌려주는 함수 take(n)을 작성하라.
      */
     def take(n: Int): Stream[A] =
+        this match {
+            case Cons(h, t) if (n > 0) => Stream.cons(h(), t().take(n - 1))
+            case _ => Empty
+        }
 
     /*
      * (2) Stream의 처음 n개의 요소를 건너뛴 스트림을 돌려주는 drop(n)을 작성하라.
      */
     def drop(n: Int): Stream[A] =
+        this match {
+            case Empty => Empty
+            case Cons(h, t) => if (n <= 0) this else t().drop(n - 1)
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]

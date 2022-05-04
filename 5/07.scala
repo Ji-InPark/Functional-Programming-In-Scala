@@ -8,26 +8,34 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * (1) foldRight를 이용해서 map을 구현하라.
      */
     def map[B](f: A => B): Stream[B] =
+        foldRight[Stream[B]](Stream.empty)((a, bStream) => Stream.cons(f(a), bStream))
 
     /*
      * (2) foldRight를 이용해서 filter를 구현하라.
      */
     def filter(p: A => Boolean): Stream[A] =
+        foldRight[Stream[A]](Stream.empty)((a, bStream) => if (p(a)) Stream.cons(a, bStream) else bStream)
 
     /*
      * (3) foldRight를 이용해서 append를 구현하라. 이 메서드는 자신의 인수에 대해 엄격하지 않아야 한다.
      */
     def append[B >: A](a: Stream[B]): Stream[B] =
+        foldRight[Stream[B]](a)(Stream.cons(_, _))
 
     /*
      * (4) foldRight를 이용해서 flatMap을 구현하라.
      */
     def flatMap[B](f: A => Stream[B]): Stream[B] =
+        foldRight[Stream[B]](Stream.empty)((a, bStream) => f(a).foldRight[Stream[B]](bStream)(Stream.cons(_, _)))
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]

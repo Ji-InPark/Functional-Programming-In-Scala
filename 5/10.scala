@@ -3,11 +3,19 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * TODO: To run the test code, copy your implementation of `take` and paste it here!
      */
     def take(n: Int): Stream[A] =
+        this match {
+            case Cons(h, t) if (n > 0) => Stream.cons(h(), t().take(n - 1))
+            case _ => Empty
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -29,6 +37,8 @@ object Stream {
      * 무한 피보나치 수 0, 1, 1, 2, 3, 5, 8, ...으로 이루어진 무한 스트림을 생성하는 함수 fibs를 작성하라.
      */
     def fibs(): Stream[Int] = {
+        def inner(f: Int, fNext: Int): Stream[Int] = cons(f, inner(fNext, f + fNext))
+        inner(0, 1)
     }
 }
 

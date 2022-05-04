@@ -3,6 +3,10 @@ sealed trait Stream[+A] {
      * TODO: To run the test code, copy your implementation of `toList` and paste it here!
      */
     def toList: List[A] =
+        this match {
+            case Cons(h, t) => h() :: t().toList
+            case Empty => Nil
+        }
 
     /*
      * unfold를 이용해서 map, take, takeWhile, zipWith(제3장 참고), zipAll을 구현하라.
@@ -10,10 +14,36 @@ sealed trait Stream[+A] {
      * 각 스트림이 소진되었는지는 Option을 이용해서 지정한다.
      */
     def map[B](f: A => B): Stream[B] =
+        Stream.unfold[B, Stream[A]](this){
+            case Cons(h, t) => Some((f(h()), t()))
+            case _ => None
+        }
+
     def take(n: Int): Stream[A] =
+        Stream.unfold[A, (Stream[A], Int)]((this, n)){
+            case (Cons(h, t), i) if (i > 0) => Some((h(), (t(), i - 1)))
+            case _ => None
+        }
+
     def takeWhile(p: A => Boolean): Stream[A] =
+        Stream.unfold[A, Stream[A]](this){
+            case Cons(h, t) if (p(h())) => Some((h(), t()))
+            case _ => None
+        }
+
     def zipWith[B, C](s2: Stream[B])(f: (A, B) => C): Stream[C] =
+        Stream.unfold[C, (Stream[A], Stream[B])]((this, s2)){
+            case (Cons(h1, t1), Cons(h2, t2)) => Some((f(h1(), h2()), (t1(), t2())))
+            case _ => None
+        }
+
     def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] =
+        Stream.unfold[(Option[A], Option[B]), (Stream[A], Stream[B])]((this, s2)){
+            case (Cons(h1, t1), Cons(h2, t2)) => Some(((Some(h1()), Some(h2())), (t1(), t2())))
+            case (Cons(h1, t1), Empty) => Some(((Some(h1()), None), (t1(), Empty)))
+            case (Empty, Cons(h2, t2)) => Some(((None, Some(h2())), (Empty, t2())))
+            case _ => None
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -35,6 +65,9 @@ object Stream {
      * TODO: Copy your implementation of `unfold` and paste it here!
      */
     def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
+        f(z).getOrElse(return empty) match {
+            case (a, s) => cons(a, unfold(s)(f))
+        }
 }
 
 object Main {

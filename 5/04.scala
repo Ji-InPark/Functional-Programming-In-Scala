@@ -11,6 +11,10 @@ sealed trait Stream[+A] {
      * 만족하지 않는 값을 만나면 즉시 순회를 마쳐야 한다.
      */
     def forAll(p: A => Boolean): Boolean =
+        this match {
+            case Cons(h, t) => if (p(h())) t().forAll(p) else false
+            case Empty => true
+        }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
