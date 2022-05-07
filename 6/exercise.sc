@@ -94,7 +94,8 @@ opaque type State[S, +A] = S => (A, S)
 object State:
   /*
    * Ex 6.10
-   *
+   * 함수 unit, map, map2, flatMap, sequence를 일반화하라. 가능하면 이들을 State 경우 클래스의 메서드로 추가하되, 불가능한 경우에는
+   * State 동반 객체에 넣을 것.
    */
   extension [S, A](underlying: State[S, A])
     def run(s: S): (A, S) = underlying(s)
@@ -118,6 +119,15 @@ case class Machine(locked: Boolean, candies: Int, coins: Int)
 object Candy:
   /*
    * Ex 6.11
-   *
+   * 어려움: State를 사용하는 경험을 쌓기 위해, 간단한 사탕 판매기를 본뜬 유한상태자동자(finite state automata)를 구현하라. 이
+   * 판매기에는 두 종류의 입력이 있다. 하나는 사용자가 넣는 동전이고, 또 하나는 돌리면 사탕이 나오는 손잡이이다. 또한, 이 판매기는 사탕이 몇
+   * 개나 남았는지, 동전이 몇 개나 들어 있는지도 추적한다.
+   * 사탕 판매기의 자동 규칙은 다음과 같다.
+   * - 잠겨진 판매기에 동전을 넣으면, 사탕이 남아 있는 경우 잠김이 풀린다.
+   * - 풀린 판매기의 손잡이를 돌리면 사탕이 나오고 판매기가 잠긴다.
+   * - 잠긴 판매기의 손잡이를 돌리거나 풀린 판매기에 동전을 넣으면 아무 일도 생기지 않는다.
+   * - 사탕이 없는 판매기는 모든 입력을 무시한다.
+   * simulateMachine 메서드는 입력들의 목록에 기초해서 판매기를 작동하고, 작동이 끝난 후 판매기에 있는 동전 개수와 사탕 개수를 돌려주어야
+   * 한다. 예를 들어 동전이 10개, 사탕이 5개 있는 Machine에서 총 4개의 사탕이 성공적으로 팔렸다면 출력은 (14, 1)이어야 한다.
    */
   def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] = ???
