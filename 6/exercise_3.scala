@@ -76,7 +76,7 @@ object RNG:
 
   /*
    * Ex 6.8
-   * flatMap을 구현하과 그것을 이용해서 nonNegativeLessThan을 구현하라.
+   * flatMap을 구현하고 그것을 이용해서 nonNegativeLessThan을 구현하라.
    */
   def flatMap[A, B](r: Rand[A])(f: A => Rand[B]): Rand[B] = ???
 
