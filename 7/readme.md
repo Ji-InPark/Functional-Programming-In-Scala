@@ -110,8 +110,6 @@ def run[A](a: Par[A]): A // 계산을 실제로 실행하여 Par로 부터 값�
 def run[A](s: ExecutorService)(a: Par[A]): Future[A] = a(s)
 ```
 
-run은 Future를 반환
-
 ## 7.3 API의 정련
  - 표현에 대한 착안이 API 설계의 개선에 도움이 된다.
  - API의 특성이 표현의 선택에 힌트를 준다.
