@@ -244,8 +244,6 @@ def fork[A](fa: => Par[A]): Par[A] =
   es => fa(es)
 ```
 
- 위와 같은 방법으로
-
  그러나 이는 고정 크기 스레드 풀 방식이 아니다. 
 
 ### 7.4.4 행위자를 이용한 완전 비차단 Par 구현
@@ -373,5 +371,5 @@ def join[A](pa: Par[Par[A]]): Par[A] = ???
 
 참조
 
-http://dogfeet.github.io/articles/2012/by-example-continuation-passing-style-in-javascript.html
-https://knight76.tistory.com/entry/scala-%EB%B3%91%EB%A0%AC-%EC%BD%9C%EB%A0%89%EC%85%98-par-collection
+- http://dogfeet.github.io/articles/2012/by-example-continuation-passing-style-in-javascript.html
+- https://knight76.tistory.com/entry/scala-%EB%B3%91%EB%A0%AC-%EC%BD%9C%EB%A0%89%EC%85%98-par-collection
