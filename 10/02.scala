@@ -5,6 +5,31 @@ import scala.{Option => _, Either => _, _}
 
 def optionMonoid[A]: Monoid[Option[A]] = ???
 
+object test{
+  def dual[A](m: Monoid[A]): Monoid[A] = new Monoid[A] {
+    def op(x: A, y: A): A = m.op(y, x)
+    val zero = m.zero
+  }
+
+  def firstOptionMonoid[A]: Monoid[Option[A]] = optionMonoid[A]
+  def lastOptionMonoid[A]: Monoid[Option[A]] = dual(firstOptionMonoid)
+
+  def main(args: Array[String]): Unit = {
+    println(optionMonoid.op(Some("연준님"), optionMonoid.zero).getOrElse("이거는 안나와야지"))
+    println(optionMonoid.op(optionMonoid.zero, Some("보고싶을거야")).getOrElse("이거는 안나와야지"))
+    println(optionMonoid.op(None, None).getOrElse("이번에는 이거 나와야지"))
+    println(firstOptionMonoid.op(Some("테스트1"), Some("테스트2")).getOrElse("이거는 안나와야지"))
+    println(lastOptionMonoid.op(Some("테스트1"), Some("테스트2")).getOrElse("이거는 안나와야지"))
+
+    /**
+    연준님
+    보고싶을거야
+    이번에는 이거 나와야지
+    테스트1
+    테스트2
+     */
+  }
+}
 
 trait Monoid[A]{
   def op(a1: A, a2: A): A
