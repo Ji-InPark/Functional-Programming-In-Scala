@@ -7,6 +7,8 @@ import scala.language.{implicitConversions, postfixOps}
 /**
  * 제 2장에서 개발한 속성 기반 검사 프레임워크를 이용해서 모노이드 법칙에 대한 속성을 구현하라.
  * 그리고 그 속성을 이용해서 앞에서 작성한 모노이드들을 검사하라.
+ *
+ * 얘는 테스트 만들기가 넘 힘드네여... ㅎ
  */
 
 def monoidLaws[A](m: Monoid[A], gen: Gen[A]): Prop = ???
