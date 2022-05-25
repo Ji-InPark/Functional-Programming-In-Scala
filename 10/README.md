@@ -60,6 +60,52 @@ def listMonoid[A] = new Monoid[List[A]]{
 
 ---
 
+## 모노이드를 이용한 목록 접기 (fold)
 
+- 모노이드는 목록과 밀접한 관계가 있다고 한다.
+- List에 대한 foldLeft와 foldRight의 서명을 보면, 파라매터 형식들에 눈에 띄는게 있을 것이다.
 
+```scala
+def foldRight[B](z: B)(f: (A, B) => B) : B
+def foldLeft[B](z: B)(f: (B, A) => B) : B
+```
 
+- 이 때 A와 B가 같은 형식이면 어떨까?
+
+```scala
+def foldRight[A](z: A)(f: (A, A) => A) : A
+def foldLeft[A](z: A)(f: (A, A) => A) : A
+```
+
+- 이렇게 보니 모노이드 구성요소들과 형식이 딱 들어맞는다!
+- 즉 모노이드의 op와 zero만 넘겨주면 문자열 연결과 같은 일이 가능하다!
+
+```scala
+val words = List("Hic", "Est", "Index")
+val s = words.foldRight(StringMonoid.zero)(stringMonoid.op) //"HicEstIndex"
+val t = words.foldLeft(StringMonoid.zero)(stringMonoid.op)  //"HicEstIndex"
+```
+
+- 이 때 foldLeft와 foldRigth 중 어떤 것을 사용해야 하는지 고민할 수도 있을 것이다.
+- 하지만 모노이드를 사용할 때는 항상 둘 다 같은 결과를 낸다.
+- 이유는 결합법칙과 항등법칙이 성립하기 때문이다!
+
+```scala
+words.foldLeft("")(_ + _) == (("" + "Hic") + "Est") + "Index"
+words.foldRight("")(_ + _) == "Hic" + ("Est" + ("Index" + ""))
+```
+
+- 이를 킹반화해서 모노이드로 목록을 접는 일반적 함수 concatenate를 만들 수도 있다.
+
+```scala
+def concatenate[A](as: List[A], m: Monoid[A]): A =
+  as.foldLeft(m.zero)(m.op)
+```
+
+- 그런데 목록의 원소 형식이 Monoid 인스턴스와는 부합하지 않을 수도 있다.
+- 그럴 때에는 map을 이용해서 형식을 맞춰주면 된다.
+```scala
+def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B
+```
+
+---
