@@ -109,3 +109,43 @@ def foldMap[A, B](as: List[A], m: Monoid[B])(f: A => B): B
 ```
 
 ---
+
+## 결합법칙과 병렬성
+
+- 모노이드 연산이 결합적이라는 것은 목록 같은 자료구조를 접을 때 그 방향을 선택할 수 있음을 의미한다.
+- 그런데 모노이드를 이용해서 목록을 축약할 때 **균형 접기**(balanced fold)를 사용할 수도 있다.
+
+```scala
+// foldLeft
+op(a, op(b, op(c, d)))
+
+// foldRight
+op(op(op(a, b), c), d)
+
+// balancedFold
+op(op(a, b), op(c, d))
+```
+
+- 균형 접기를 사용하면 병렬 처리가 가능함을 볼 수 있다.
+- 또한 op의 비용이 인수 크기에 비례하는 경우 트리 구조의 균형이 좋을수록 전체 계산의 효율성이 높아진다.
+- 한 예로 다음 표현식의 실행시점 성능을 보자.
+
+```scala
+List("lorem", "ipsum", "dolor", "sit").foldLeft("")(_ + _)
+```
+
+- 단계마다 전체 String을 임시로 할당했다가 폐기하고, 그 다음단계에서는 더 큰 String을 할당하게 된다.
+- 다음은 위 연산의 평가를 추적한 것이다
+
+```scala
+List("lorem", "ipsum", "dolor", "sit").foldLeft("")(_ + _)
+List("ipsum", "dolor", "sit").foldLeft("lorem")(_ + _)
+List("dolor", "sit").foldLeft("loremipsum")(_ + _)
+List("sit").foldLeft("loremipsumdolor")(_ + _)
+List().foldLeft("loremipsumdolorsit")(_ + _)
+"loremipsumdolorsit"
+```
+
+- 임시 String들이 생성되었다가 즉시 폐기됨을 주목하기 바란다.
+- 좀 더 효율적인 전략이라면 순차열을 반으로 나누어서 결합할 것이다.
+- **균형 접기**가 바로 그런 방식이다.
