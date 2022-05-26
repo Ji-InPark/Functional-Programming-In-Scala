@@ -182,3 +182,33 @@ case class Part(lStub: String, words: Int, rStub: String) extends WC
 - Stub은 가장 단순한 경우로, 아직 완전한 단어를 하나도 보지 못한 상태에 해당한다.
 - Part는 지금까지 조사한 완전한 단어들의 개수를 words에 유지한다.
 - lStub은 그 단어들의 왼쪽에서 발견한 부분 단어 개수를, rStub은 오른쪽 부분 단어 개수를 담는다.
+
+---
+
+## 접을 수 있는 자료구조
+
+- 제 3장에서 구현한 자료구조 List와 Tree는 둘 다 접을 수 있다.
+- 5장에서는 List와 아주 비슷하게 접을 수 있는 게으른 자료구조 Stream을 작성했다.
+- 그리고 이번 장에서는 IndexedSeq를 접는 함수를 작성했다.
+
+- 이런 자료구조들에 담긴 자료를 처리해야하는 코드를 작성할 때 해당 자료구조의 형태나 지연여부 등은 크게 신경 쓰지 않는 경우가 많다.
+```scala
+ints.foldRight(0)(_ + _)
+```
+
+- 이 코드를 작성할 때 ints의 구체적인 형식은 신경 쓸 필요가 없다.
+- 그저 foldRight 메서드가 있는 형식이기만 하면 된다.
+- 이러한 공통점은 다음과 같은 trait로 명시할 수 있다.
+```scala
+trait Foldable[F[_]]{
+  def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B
+  def foldLeft[A, B](as: F[A])(z: B)(f: (B, A) => B): B
+  def foldMap[A, B](as: F[A])(f: A => B)(mb: Monoid[B]): B
+  def concatenate[A](as: F[A])(m: Monoid[A]): A =
+    foldLeft(as)(m.zero)(m.op)
+}
+```
+
+- 이 특질은 형식 생성자 F에 대한 추상화를 통해 나온 것이다.
+- F[_]라는 표기에서 밑줄은 F가 형식이 아니라 하나의 형식 인수를 받는 형식 생성자임을 나타낸다
+- 이를 **고차 형식 생성자** 또는 **상위 종류 형식**이라고 부른다.
