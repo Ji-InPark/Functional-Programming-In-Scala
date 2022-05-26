@@ -224,3 +224,25 @@ trait Foldable[F[_]]{
 ---
 
 ## 좀 더 복잡한 모노이드 합성
+
+- 자료구조에 담긴 요소들의 형식들이 모노이드를 형성한다면 그 자료구조 자체도 흥미로운 모노이드를 형성할 때가 있다.
+- 예를 들어 key-value Map이 있을 때, key 형식이 모노이드면 그런 Map들을 병합하기 위한 모노이드가 존재한다.
+
+```scala
+def mapMergeMonoid[K, V](V: Monoid[V]): Monoid[Map[K, V]] =
+  new Monoid[Map[K, V]]{
+    def zero = Map[K, V]()
+    def op(a: Map[K, V], b: Map[K, V]) =
+      (a.keySet ++ b.keySet).foldLeft(zero){
+        (acc, k) => acc.updated(k, V.op(a.getOrElse(k, V.zero),
+                                        b.getOrElse(k, V.zero)))
+      }
+  }
+```
+
+- 이 간단한(?) 조합기를 이용하면 좀 더 복잡한 모노이드를 상당히 수월하게 조립할 수 있다.
+```scala
+val M: Monoid[Map[String, Map[String, Int]]] = mapMergeMonoid(mapMergeMonoid(intAddition))
+```
+
+- 이에 의해 추가적인 프로그래밍 없이도 모노이드를 이용해서 중첩된 표현식들을 조합할 수 있다.
