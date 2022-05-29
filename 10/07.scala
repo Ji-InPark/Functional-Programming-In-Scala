@@ -3,15 +3,7 @@
  * 구현은 반드시 순차열을 둘로 분할해서 재귀적으로 각 절반을 처리하고 그 결과들을 모노이드를 이용해서 결합해야 한다.
  */
 
-def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B =
-  if (v.length == 0)
-    m.zero
-  else if (v.length == 1)
-    f(v(0))
-  else {
-    val (l, r) = v.splitAt(v.length / 2)
-    m.op(foldMapV(l, m)(f), foldMapV(r, m)(f))
-  }
+def foldMapV[A, B](v: IndexedSeq[A], m: Monoid[B])(f: A => B): B = ???
 
 object test{
   val addWithPrintMonoid: Monoid[Int] = new Monoid[Int]{
